@@ -1,0 +1,48 @@
+﻿@model dynamic
+@{
+    Layout = null;
+}
+<form action="@Url.Action("AddNew")" method="POST">
+    <table>
+        <tr>
+            <td>Category</td>
+            <td>@Html.DropDownList("Category",new List<SelectListItem>
+                                                  {
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "BodyTemperature",
+                                                              Value = "BodyTemperature"
+                                                          },
+                                                          new SelectListItem
+                                                          {
+                                                              Text = "BodySkin",
+                                                              Value = "BodySkin"
+                                                          },
+                                                          new SelectListItem
+                                                          {
+                                                              Text = "Antipiotic",
+                                                              Value = "Antipiotic"
+                                                          }
+                                                  })</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>@Html.TextBox("Name")</td>
+        </tr>
+        <tr>
+            <td>Desc</td>
+            <td>@Html.TextArea("Desc")</td>
+        </tr>
+        <tr>
+            <td>Taking Period</td>
+            <td>@Html.TextArea("TakingPeriod")</td>
+        </tr>
+        <tr>
+            <td>Image Url</td>
+            <td>@Html.TextBox("ImageUrl")</td>
+        </tr>
+    </table>
+    <input type="submit" value="Save"/>
+    <input type="reset" value="Clear"/>
+</form>
+

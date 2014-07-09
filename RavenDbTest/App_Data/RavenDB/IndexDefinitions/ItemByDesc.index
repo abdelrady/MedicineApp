@@ -1,0 +1,25 @@
+{
+  "Name": "ItemByDesc",
+  "LockMode": "Unlock",
+  "Map": "docs.Items.Select(movie => new {\r\n    Desc = movie.Desc\r\n})",
+  "Maps": [
+    "docs.Items.Select(movie => new {\r\n    Desc = movie.Desc\r\n})"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {
+    "Desc": "Analyzed"
+  },
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": null,
+  "Type": "Map",
+  "DisableInMemoryIndexing": false
+}
