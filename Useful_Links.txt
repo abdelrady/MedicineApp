@@ -1,0 +1,14 @@
+1- http://localhost:8090/medicine
+will list the top 5 of items
+2- http://localhost:8090/medicine/List?pageNumber=1&pageSize=10
+get the next 10 items (as page 0 will contain the first 10 items)
+3- http://localhost:8090/medicine/Search?by=Name&criteria=ahmed
+get the list of items where name contains 'ahmed'
+4- http://localhost:8090/medicine/Search?by=Desc&criteria=any
+get the list of items where description contains the word 'any'
+5- http://localhost:8090/medicine/Search?by=Cat&criteria=Antibiotic
+get the list of items where category is Antibiotic
+6- http://localhost:8090/medicine/AddNew
+submit a new medicine (you should supply this info
+{"Category":"","Name":"","Desc":"","TakingPeriod":"","ImageUrl":""}
+)

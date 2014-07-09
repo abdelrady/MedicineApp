@@ -12,7 +12,7 @@
     //public enum Category
     //{
     //    BodyTemperature,
-    //    Antipiotic,
+    //    Antibiotic,
     //    BodySkin
     //}
 }
