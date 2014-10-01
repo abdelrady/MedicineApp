@@ -9,27 +9,55 @@ namespace RavenDbTest.Controllers
 {
     public class MedicineController : RavenDbController
     {
-        public ActionResult Index()
+        public ActionResult Index(int pageNumber=0,int pageSize=5)
         {
-            return List();
+            var items = Session.Query<Item>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            return Json(items);
         }
 
         public ActionResult AddNew()
         {
+            ViewBag.IsAdd = true;
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddNew(Item item)
+        public ActionResult AddNew(Item item, bool isAdd)
         {
-            Session.Store(item);
-            return Json(true);
+            if (isAdd)
+                Session.Store(item);
+            else
+            {
+                var dbItem = Session.Load<Item>(item.Id.Replace('_', '/'));
+                if (dbItem != null)
+                {
+                    dbItem.Name = item.Name;
+                    dbItem.Category = item.Category;
+                    dbItem.Desc = item.Desc;
+                    dbItem.TakingPeriod = item.TakingPeriod;
+                    dbItem.ImageUrl = item.ImageUrl;
+                }
+                else return Content("Item not found in database");
+            }
+            return RedirectToAction("List");            
+        }
+
+        public ActionResult Edit(string id)
+        {
+            ViewBag.IsAdd = false;
+            id = id.Replace('_', '/');
+            var item = Session.Load<Item>(id);
+            if (item != null)
+                return View("AddNew",item);
+            return Content("Item not found in database");
         }
 
         public ActionResult List(int pageNumber=0,int pageSize=5)
         {
-            var items = Session.Query<Item>().Skip(pageNumber*pageSize).Take(pageSize).ToList();
-            return Json(items);
+            var items = Session.Query<Item>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            ViewBag.PageSize = pageSize;
+            ViewBag.PageNumber = pageNumber;
+            return View(items);
         }
 
 
@@ -50,6 +78,15 @@ namespace RavenDbTest.Controllers
                     break;
             }
             return Json(items);
+        }
+
+        public ActionResult Delete(string id)
+        {
+            id = id.Replace('_', '/');
+            var item = Session.Load<Item>(id);
+            if (item != null)
+                Session.Delete(item);
+            return RedirectToAction("List");
         }
     }
 }

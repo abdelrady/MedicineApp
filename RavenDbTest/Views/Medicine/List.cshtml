@@ -1,0 +1,54 @@
+﻿@model List<RavenDbTest.Models.Item>
+
+@{
+}
+<style>
+    *{
+        word-break: break-all;
+        word-wrap: break-word;
+}
+</style>
+<h2>List All</h2>
+<table style="width: 100%">
+    <tr style="text-align: center">
+        <th style="width: 10%">Name</th>
+        <th style="width: 10%">Category</th>
+        <th style="width: 30%">Description</th>
+        <th style="width: 30%">Taking Period</th>
+        <th style="width: 100px">Image</th>
+        <th style="min-width: 100px">Actions</th>
+    </tr>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td style="width: 10%">@item.Name</td>
+            <td style="width: 10%">@item.Category</td>
+            <td style="width: 30%">@item.Desc</td>
+            <td style="width: 30%">@item.TakingPeriod</td>
+            <td style="width: 100px;"><img src="@item.ImageUrl" alt="Item Image" style="width: 100px;"/></td>
+            <td style="min-width: 100px;">
+                <a href="@Url.Action("Edit")/@item.Id.Replace('/','_')">Edit</a>
+                <a href="@Url.Action("Delete")/@item.Id.Replace('/','_')" onclick="makeSure();">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+@*<select>
+    <option value="5" selected="selected">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+</select>*@
+<h3>Page @ViewBag.PageNumber</h3>
+<a href='@Url.Action("List")?pageSize=@ViewBag.PageSize&pageNumber=@((int)ViewBag.PageNumber>0?ViewBag.PageNumber-1:0)'>Prev</a>
+<a href='@Url.Action("List")?pageSize=@ViewBag.PageSize&pageNumber=@(ViewBag.PageNumber+1)'>Next</a>
+<a href='@Url.Action("AddNew")'>Add New Item</a>
+<script>
+    function makeSure() {
+        if (!confirm("Are you sure you want to remove this item?")) {
+            event.preventDefault();
+            return false;
+        }
+    }
+</script>

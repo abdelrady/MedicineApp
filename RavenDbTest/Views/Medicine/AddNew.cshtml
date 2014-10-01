@@ -1,48 +1,85 @@
-﻿@model dynamic
+﻿@model RavenDbTest.Models.Item
 @{
-    Layout = null;
+    var isAdd = ViewBag.IsAdd;
+    //Layout = null;
+}
+@if (isAdd)
+{
+    <h2>Add New Item</h2>
+}
+else
+{
+    <h2>Edit Item</h2>    
 }
 <form action="@Url.Action("AddNew")" method="POST">
     <table>
         <tr>
             <td>Category</td>
-            <td>@Html.DropDownList("Category",new List<SelectListItem>
+            <td>@Html.DropDownListFor(x => x.Category, new List<SelectListItem>
                                                   {
                                                       new SelectListItem
                                                           {
-                                                              Text = "BodyTemperature",
-                                                              Value = "BodyTemperature"
+                                                              Text = "headache",
+                                                              Value = "headache"
                                                           },
-                                                          new SelectListItem
+                                                      new SelectListItem
                                                           {
-                                                              Text = "BodySkin",
-                                                              Value = "BodySkin"
+                                                              Text = "coldness",
+                                                              Value = "coldness"
                                                           },
-                                                          new SelectListItem
+                                                      new SelectListItem
                                                           {
-                                                              Text = "Antipiotic",
-                                                              Value = "Antipiotic"
+                                                              Text = "Sore throat",
+                                                              Value = "Sore throat"
+                                                          },
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "Ear, Nose",
+                                                              Value = "Ear, Nose"
+                                                          },    
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "Sore eyes",
+                                                              Value = "Sore eyes"
+                                                          },
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "Antibiotics",
+                                                              Value = "Antibiotics"
+                                                          },
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "Vitamins",
+                                                              Value = "Vitamins"
                                                           }
                                                   })</td>
         </tr>
         <tr>
             <td>Name</td>
-            <td>@Html.TextBox("Name")</td>
+            <td>@Html.TextBoxFor(x => x.Name)</td>
         </tr>
         <tr>
             <td>Desc</td>
-            <td>@Html.TextArea("Desc")</td>
+            <td>@Html.TextAreaFor(x => x.Desc)</td>
         </tr>
         <tr>
             <td>Taking Period</td>
-            <td>@Html.TextArea("TakingPeriod")</td>
+            <td>@Html.TextAreaFor(x => x.TakingPeriod)</td>
         </tr>
         <tr>
             <td>Image Url</td>
-            <td>@Html.TextBox("ImageUrl")</td>
+            <td>@Html.TextBoxFor(x => x.ImageUrl)</td>
+        </tr>
+        <tr>
+            <td>
+                @Html.HiddenFor(x => x.Id)
+                <input type="hidden" name="isAdd" value="@isAdd.ToString()"/>
+            </td>
+            <td>
+                <input type="submit" value="Save" />
+            </td>
         </tr>
     </table>
-    <input type="submit" value="Save"/>
-    <input type="reset" value="Clear"/>
-</form>
 
+    @*<input type="reset" value="Clear"/>*@
+</form>
