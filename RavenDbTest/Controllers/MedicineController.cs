@@ -12,7 +12,9 @@ namespace RavenDbTest.Controllers
     {
         public ActionResult Index(int pageNumber=0,int pageSize=5)
         {
-            var items = Session.Query<Item>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            var items = Session.Query<Item>()
+                .Where(x=>x.IsActive.HasValue && x.IsActive.Value)
+                .Skip(pageNumber * pageSize).Take(pageSize).ToList();
             return Json(items);
         }
 
@@ -118,6 +120,15 @@ namespace RavenDbTest.Controllers
                 else return false;
             }
             return true;
+        }
+
+        public ActionResult ActivateAll()
+        {
+            var items = Session.Query<Item>()
+                .Where(x => !(x.IsActive.HasValue && x.IsActive.Value)).ToList();
+            foreach (var item in items)
+                item.IsActive = true;
+            return Json(new { Result = true });
         }
     }
 }
