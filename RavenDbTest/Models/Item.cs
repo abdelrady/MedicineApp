@@ -8,6 +8,7 @@
         public string Desc { get; set; }
         public string TakingPeriod { get; set; }
         public string ImageUrl { get; set; }
+        public bool? IsActive { get; set; }
     }
 
     //public enum Category

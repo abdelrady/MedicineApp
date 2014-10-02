@@ -24,22 +24,21 @@ namespace RavenDbTest.Controllers
         [HttpPost]
         public ActionResult AddNew(Item item, bool isAdd)
         {
-            if (isAdd)
-                Session.Store(item);
-            else
-            {
-                var dbItem = Session.Load<Item>(item.Id.Replace('_', '/'));
-                if (dbItem != null)
-                {
-                    dbItem.Name = item.Name;
-                    dbItem.Category = item.Category;
-                    dbItem.Desc = item.Desc;
-                    dbItem.TakingPeriod = item.TakingPeriod;
-                    dbItem.ImageUrl = item.ImageUrl;
-                }
+            if(AddItem(item,isAdd))
+            return RedirectToAction("List");
                 else return Content("Item not found in database");
             }
-            return RedirectToAction("List");            
+
+        //public ActionResult TestJson()
+        //{
+        //    return View();
+        //}
+
+        [HttpPost]
+        public JsonResult Add(Item item)
+        {
+            //item.IsActive = false;
+            return Json(new { Result = AddItem(item, true) });
         }
 
         public ActionResult Edit(string id)
@@ -87,6 +86,26 @@ namespace RavenDbTest.Controllers
             if (item != null)
                 Session.Delete(item);
             return RedirectToAction("List");
+        }
+
+        private bool AddItem(Item item, bool isAdd)
+        {
+            if (isAdd)
+                Session.Store(item);
+            else
+            {
+                var dbItem = Session.Load<Item>(item.Id.Replace('_', '/'));
+                if (dbItem != null)
+                {
+                    dbItem.Name = item.Name;
+                    dbItem.Category = item.Category;
+                    dbItem.Desc = item.Desc;
+                    dbItem.TakingPeriod = item.TakingPeriod;
+                    dbItem.ImageUrl = item.ImageUrl;
+                }
+                else return false;
+            }
+            return true;
         }
     }
 }
