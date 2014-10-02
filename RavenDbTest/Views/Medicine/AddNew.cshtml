@@ -71,10 +71,27 @@ else
             <td>@Html.TextBoxFor(x => x.ImageUrl)</td>
         </tr>
         <tr>
+            <td>Status</td>
+            <td>@Html.DropDownListFor(x => x.IsActive, new List<SelectListItem>
+                                                           {
+                                                               new SelectListItem
+                                                                   {
+                                                                       Text = "Active",
+                                                                       Value = "true"
+                                                                   },
+                                                               new SelectListItem
+                                                                   {
+                                                                       Text = "InActive",
+                                                                       Value = "false"
+                                                                   }
+                                                           })
+            </td>
+        </tr>
+        <tr>
             <td>
                 @Html.HiddenFor(x => x.Id)
                 <input type="hidden" name="isAdd" value="@isAdd.ToString()"/>
-                <input type="hidden" name="IsActive" value="true"/>
+                <input type="hidden" name="IsActive" value="true" />
             </td>
             <td>
                 <input type="submit" value="Save" />

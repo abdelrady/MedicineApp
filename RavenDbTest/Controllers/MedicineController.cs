@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Raven.Client;
@@ -26,8 +27,8 @@ namespace RavenDbTest.Controllers
         {
             if(AddItem(item,isAdd))
             return RedirectToAction("List");
-                else return Content("Item not found in database");
-            }
+            return Content("Item not found in database");
+        }
 
         //public ActionResult TestJson()
         //{
@@ -37,7 +38,7 @@ namespace RavenDbTest.Controllers
         [HttpPost]
         public JsonResult Add(Item item)
         {
-            //item.IsActive = false;
+            item.IsActive = false;
             return Json(new { Result = AddItem(item, true) });
         }
 
@@ -51,9 +52,10 @@ namespace RavenDbTest.Controllers
             return Content("Item not found in database");
         }
 
-        public ActionResult List(int pageNumber=0,int pageSize=5)
+        public ActionResult List(int pageNumber=1,int pageSize=5)
         {
-            var items = Session.Query<Item>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            var items = Session.Query<Item>().Skip((pageNumber-1) * pageSize).Take(pageSize).ToList();
+            ViewBag.NumOfPages = Math.Ceiling(Session.Query<Item>().Count() / (double)pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.PageNumber = pageNumber;
             return View(items);
@@ -88,6 +90,15 @@ namespace RavenDbTest.Controllers
             return RedirectToAction("List");
         }
 
+        public ActionResult MakeActive(string id)
+        {
+            id = id.Replace('_', '/');
+            var item = Session.Load<Item>(id);
+            if (item != null)
+                item.IsActive = true;
+            return RedirectToAction("List");
+        }
+
         private bool AddItem(Item item, bool isAdd)
         {
             if (isAdd)
@@ -102,6 +113,7 @@ namespace RavenDbTest.Controllers
                     dbItem.Desc = item.Desc;
                     dbItem.TakingPeriod = item.TakingPeriod;
                     dbItem.ImageUrl = item.ImageUrl;
+                    dbItem.IsActive = item.IsActive;
                 }
                 else return false;
             }
