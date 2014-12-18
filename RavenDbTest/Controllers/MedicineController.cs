@@ -70,13 +70,19 @@ namespace RavenDbTest.Controllers
             switch (@by.ToLower())
             {
                 case "cat":
-                    items = Session.Query<Item>().Where(x => x.Category == criteria).ToList();
+                    items = Session.Query<Item>()
+                        .Where(x => x.IsActive.HasValue && x.IsActive.Value)
+                        .Where(x => x.Category == criteria).ToList();
                     break;
                 case "desc":
-                    items = Session.Query<Item, ItemByDesc>().Search(x => x.Desc, criteria).ToList();
+                    items = Session.Query<Item, ItemByDesc>()
+                        .Where(x => x.IsActive.HasValue && x.IsActive.Value)
+                        .Search(x => x.Desc, criteria).ToList();
                     break;
                 default:
-                    items = Session.Query<Item, ItemByName>().Search(x => x.Name, criteria)
+                    items = Session.Query<Item, ItemByName>()
+                        .Where(x => x.IsActive.HasValue && x.IsActive.Value)
+                        .Search(x => x.Name, criteria)
                         .ToList();
                     break;
             }
