@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "TestJson";
+}
+
+<h2>TestJson</h2>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/medicine/Add",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ "Id": "", "Category": "headache", "Name": "ahmed test", "Desc": "qwe", "TakingPeriod": "123", "ImageUrl": "zxc", "IsActive": null })
+        }).done(function () {
+            window.location = "/medicine/List"
+        });
+    });
+</script>

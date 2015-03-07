@@ -21,6 +21,11 @@
     </tr>
     @foreach (var item in Model)
     {
+        var imageUrl = item.ImageUrl.ToLower();
+        if (!(imageUrl.StartsWith("http") || imageUrl.StartsWith("https") || imageUrl.StartsWith("ftp") || imageUrl.StartsWith("www")))
+        {
+            imageUrl = String.Format("data:image/jpg;base64,{0}", item.ImageUrl);
+        }
         <tr>
             <td style="width: 10%">@item.Name</td>
             <td style="width: 10%">@item.Category</td>
@@ -28,7 +33,7 @@
             <td style="width: 20%">@item.TakingPeriod</td>
             <td style="width: 10%">@((item.IsActive.HasValue&&item.IsActive.Value)?"Active":"InActive") </td>
             <td style="width: 100px;">
-                <img src="@item.ImageUrl" alt="Item Image" style="width: 100px;"/></td>
+                <img src="@imageUrl" alt="Item Image" style="width: 100px;"/></td>
             <td style="min-width: 200px;">
                 @if (!(item.IsActive.HasValue && item.IsActive.Value))
                 {

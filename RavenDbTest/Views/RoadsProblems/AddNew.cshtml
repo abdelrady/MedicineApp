@@ -1,0 +1,84 @@
+﻿@model RavenDbTest.Models.Problem
+@{
+    var isAdd = ViewBag.IsAdd;
+    var severityList = (IEnumerable<SelectListItem>)ViewBag.SeverityList;
+    var ratingList = (IEnumerable<SelectListItem>)ViewBag.RatingList;
+}
+@if (isAdd)
+{
+    <h2>Add New Item</h2>
+}
+else
+{
+    <h2>Edit Item</h2>
+}
+<form action="@Url.Action("AddNew")" method="POST" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <td>Category</td>
+            <td>
+                @Html.DropDownListFor(x => x.Category, new List<SelectListItem>
+                                                  {
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "مطب",
+                                                              Value = "Metab"
+                                                          },
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "حفره",
+                                                              Value = "Hole"
+                                                          },
+                                                      new SelectListItem
+                                                          {
+                                                              Text = "أخري",
+                                                              Value = "Other"
+                                                          }
+                                                  })
+            </td>
+        </tr>
+        <tr>
+            <td>Desc</td>
+            <td>@Html.TextBoxFor(x => x.Description)</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td>@Html.TextAreaFor(x => x.Longitude)</td>
+        </tr>
+        <tr>
+            <td>Latitude</td>
+            <td>@Html.TextAreaFor(x => x.Latitude)</td>
+        </tr>
+        <tr>
+            <td>Severity</td>
+            <td>@Html.DropDownListFor(x => x.Severity, severityList)</td>
+        </tr>
+        <tr>
+            <td>Rating</td>
+            <td>@Html.DropDownListFor(x => x.Rating, ratingList)</td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td>
+                <input type="file" name="Image" />
+                <br />
+                @if (Model!=null && !string.IsNullOrEmpty(Model.Image))
+                {
+                    <img width="200" src="@String.Format("data:image/jpg;base64,{0}", Model.Image)" />
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.UserId)
+                <input type="hidden" name="isAdd" value="@isAdd.ToString()" />
+                <input type="hidden" name="IsActive" value="true" />
+            </td>
+            <td>
+                <input type="submit" value="Save" />
+            </td>
+        </tr>
+    </table>
+</form>
