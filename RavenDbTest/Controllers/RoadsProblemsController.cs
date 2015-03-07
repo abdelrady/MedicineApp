@@ -12,6 +12,12 @@ namespace RavenDbTest.Controllers
 {
     public class RoadsProblemsController : RavenDbController
     {
+
+        public ActionResult TestJson()
+        {
+            return View();
+        }
+
         public ActionResult Index(int pageNumber = 0, int pageSize = 5)
         {
             var problems = Session.Query<Problem>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
@@ -95,10 +101,10 @@ namespace RavenDbTest.Controllers
         }
 
         [HttpPost]
-        public JsonResult Add(Problem problem, string imageData)
+        public JsonResult Add(Problem problem)
         {
             //item.IsActive = false;
-            return Json(new { Result = AddProblem(problem, true, imageData) });
+            return Json(new { Result = AddProblem(problem, true, problem.Image) });
         }
 
         public ActionResult Edit(string id)

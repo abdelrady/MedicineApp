@@ -9,11 +9,11 @@
     $(document).ready(function () {
         $.ajax({
             type: "POST",
-            url: "/medicine/Add",
+            url: "/roadsproblems/Add",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ "Id": "", "Category": "headache", "Name": "ahmed test", "Desc": "qwe", "TakingPeriod": "123", "ImageUrl": "zxc", "IsActive": null })
+            data: JSON.stringify({ "Id": "", "Category": "hole", "Description": "Rady test", "Severity": "Dangrous", "Image": "iVBORw0KGgoAAAANSUhEUgAAAB0AAAAZCAIAAABCYLJOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAmSURBVEhL7cxBDQAgAAMx/JseIaeBXyugZ39444033njjjTfeZ7tcdXb6IscfCAAAAABJRU5ErkJggg==", "UserId": 0, "Rating": 4, "Longitude": 30.5, "Latitude": 30.3332, "IsActive": true })
         }).done(function () {
-            window.location = "/medicine/List"
+            window.location = "/roadsproblems/List"
         });
     });
 </script>
