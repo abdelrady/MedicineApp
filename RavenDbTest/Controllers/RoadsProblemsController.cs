@@ -140,16 +140,32 @@ namespace RavenDbTest.Controllers
 
         public ActionResult GetProblemImages(string id)
         {
+            string image = string.Empty;
             id = id.Replace('_', '/');
             var problem = Session.Load<Problem>(id);
-            return Json(new { problem.Image });
+            if (problem != null)
+                image = problem.Image;
+            return Json(new { image });
         }
 
         public ActionResult GetAroundProblems(double @long, double lat, double range)
         {
-            List<Problem> problems;
-            problems = Session.Query<Problem>().Where(x => DistanceFinder.GetDistanceBetweenPoints(lat, @long, x.Latitude, x.Longitude) <= range).ToList();
-            return Json(problems);
+            List<Problem> problems = null;
+
+            if (range <= 1000000)
+                problems = Session.Query<Problem>().Where(x => DistanceFinder.GetDistanceBetweenPoints(lat, @long, x.Latitude, x.Longitude) <= range).ToList();
+            return Json(problems.Select(x => new
+            {
+                x.Id,
+                x.Category,
+                x.Description,
+                x.IsActive,
+                x.Latitude,
+                x.Longitude,
+                x.Rating,
+                x.Severity,
+                x.UserId
+            }));
         }
 
         public ActionResult Delete(string id)
