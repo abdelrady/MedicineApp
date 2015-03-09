@@ -3,17 +3,41 @@
 }
 
 <h2>TestJson</h2>
+<div id="resultDiv"></div>
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
 
 <script>
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/roadsproblems/Add",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify({ "Id": "", "Category": "hole", "Description": "Rady test", "Severity": "Dangrous", "Image": "iVBORw0KGgoAAAANSUhEUgAAAB0AAAAZCAIAAABCYLJOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAmSURBVEhL7cxBDQAgAAMx/JseIaeBXyugZ39444033njjjTfeZ7tcdXb6IscfCAAAAABJRU5ErkJggg==", "UserId": 0, "Rating": 4, "Longitude": 30.5, "Latitude": 30.3332, "IsActive": true })
+    //    }).done(function () {
+    //        window.location = "/roadsproblems/List"
+    //    });
+    //});
+
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/roadsproblems/AddCategory",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify({ "CatName": "أخري" })
+    //    }).done(function () {
+    //        window.location = "/roadsproblems/GetCategories"
+    //    });
+    //});
+
+
     $(document).ready(function () {
         $.ajax({
             type: "POST",
-            url: "/roadsproblems/Add",
+            url: "/roadsproblems/DeleteCategory",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ "Id": "", "Category": "hole", "Description": "Rady test", "Severity": "Dangrous", "Image": "iVBORw0KGgoAAAANSUhEUgAAAB0AAAAZCAIAAABCYLJOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAmSURBVEhL7cxBDQAgAAMx/JseIaeBXyugZ39444033njjjTfeZ7tcdXb6IscfCAAAAABJRU5ErkJggg==", "UserId": 0, "Rating": 4, "Longitude": 30.5, "Latitude": 30.3332, "IsActive": true })
-        }).done(function () {
-            window.location = "/roadsproblems/List"
+            data: JSON.stringify({ "CatName": "hole" })
+        }).done(function (data) {
+            $('#resultDiv').text(data.Result);
         });
     });
 </script>

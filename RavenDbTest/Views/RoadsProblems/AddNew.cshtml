@@ -1,6 +1,7 @@
 ﻿@model RavenDbTest.Models.Problem
 @{
     var isAdd = ViewBag.IsAdd;
+    var categoryList = (IEnumerable<SelectListItem>)ViewBag.CategoryList;
     var severityList = (IEnumerable<SelectListItem>)ViewBag.SeverityList;
     var ratingList = (IEnumerable<SelectListItem>)ViewBag.RatingList;
 }
@@ -18,24 +19,7 @@ else
         <tr>
             <td>Category</td>
             <td>
-                @Html.DropDownListFor(x => x.Category, new List<SelectListItem>
-                                                  {
-                                                      new SelectListItem
-                                                          {
-                                                              Text = "مطب",
-                                                              Value = "Metab"
-                                                          },
-                                                      new SelectListItem
-                                                          {
-                                                              Text = "حفره",
-                                                              Value = "Hole"
-                                                          },
-                                                      new SelectListItem
-                                                          {
-                                                              Text = "أخري",
-                                                              Value = "Other"
-                                                          }
-                                                  })
+                @Html.DropDownListFor(x => x.Category, categoryList)
             </td>
         </tr>
         <tr>

@@ -208,6 +208,7 @@
     <Compile Include="Helpers\ItemByDesc.cs" />
     <Compile Include="Helpers\ItemByName.cs" />
     <Compile Include="Helpers\ProblemByDesc.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Controllers\RavenController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
