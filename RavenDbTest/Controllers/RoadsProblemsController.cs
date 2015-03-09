@@ -153,7 +153,9 @@ namespace RavenDbTest.Controllers
             List<Problem> problems = null;
 
             if (range <= 1000000)
-                problems = Session.Query<Problem>().Where(x => DistanceFinder.GetDistanceBetweenPoints(lat, @long, x.Latitude, x.Longitude) <= range).ToList();
+                problems = Session.Query<Problem>().ToList()
+                    .Where(x => DistanceFinder.GetDistanceBetweenPoints(lat, @long, x.Latitude, x.Longitude) <= range)
+                    .ToList();
             return Json(problems.Select(x => new
             {
                 x.Id,
