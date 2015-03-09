@@ -13,8 +13,9 @@ namespace RavenDbTest.Controllers
     public class RoadsProblemsController : RavenDbController
     {
 
-        public ActionResult TestJson()
+        public ActionResult TestJson(string id)
         {
+            ViewBag.CatName = id;
             return View();
         }
 

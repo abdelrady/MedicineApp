@@ -17,27 +17,26 @@
     //        window.location = "/roadsproblems/List"
     //    });
     //});
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/roadsproblems/AddCategory",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ "CatName": "@ViewBag.CatName" })
+        }).done(function () {
+            window.location = "/roadsproblems/GetCategories"
+        });
+    });
+
 
     //$(document).ready(function () {
     //    $.ajax({
     //        type: "POST",
-    //        url: "/roadsproblems/AddCategory",
+    //        url: "/roadsproblems/DeleteCategory",
     //        contentType: "application/json; charset=utf-8",
-    //        data: JSON.stringify({ "CatName": "أخري" })
-    //    }).done(function () {
-    //        window.location = "/roadsproblems/GetCategories"
+    //        data: JSON.stringify({ "CatName": "hole" })
+    //    }).done(function (data) {
+    //        $('#resultDiv').text(data.Result);
     //    });
     //});
-
-
-    $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: "/roadsproblems/DeleteCategory",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ "CatName": "hole" })
-        }).done(function (data) {
-            $('#resultDiv').text(data.Result);
-        });
-    });
 </script>
