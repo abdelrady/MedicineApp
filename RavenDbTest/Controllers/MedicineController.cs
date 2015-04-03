@@ -12,7 +12,7 @@ namespace RavenDbTest.Controllers
     {
         public ActionResult Index(int pageNumber=0,int pageSize=5)
         {
-            var items = Session.Query<Item>()
+            var items = DbSession.Query<Item>()
                 .Where(x=>x.IsActive.HasValue && x.IsActive.Value)
                 .Skip(pageNumber * pageSize).Take(pageSize).ToList();
             return Json(items);
@@ -48,7 +48,7 @@ namespace RavenDbTest.Controllers
         {
             ViewBag.IsAdd = false;
             id = id.Replace('_', '/');
-            var item = Session.Load<Item>(id);
+            var item = DbSession.Load<Item>(id);
             if (item != null)
                 return View("AddNew",item);
             return Content("Item not found in database");
@@ -56,8 +56,8 @@ namespace RavenDbTest.Controllers
 
         public ActionResult List(int pageNumber=1,int pageSize=5)
         {
-            var items = Session.Query<Item>().Skip((pageNumber-1) * pageSize).Take(pageSize).ToList();
-            ViewBag.NumOfPages = Math.Ceiling(Session.Query<Item>().Count() / (double)pageSize);
+            var items = DbSession.Query<Item>().Skip((pageNumber-1) * pageSize).Take(pageSize).ToList();
+            ViewBag.NumOfPages = Math.Ceiling(DbSession.Query<Item>().Count() / (double)pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.PageNumber = pageNumber;
             return View(items);
@@ -70,17 +70,17 @@ namespace RavenDbTest.Controllers
             switch (@by.ToLower())
             {
                 case "cat":
-                    items = Session.Query<Item>()
+                    items = DbSession.Query<Item>()
                         .Where(x => x.IsActive.HasValue && x.IsActive.Value)
                         .Where(x => x.Category == criteria).ToList();
                     break;
                 case "desc":
-                    items = Session.Query<Item, ItemByDesc>()
+                    items = DbSession.Query<Item, ItemByDesc>()
                         .Where(x => x.IsActive.HasValue && x.IsActive.Value)
                         .Search(x => x.Desc, criteria).ToList();
                     break;
                 default:
-                    items = Session.Query<Item, ItemByName>()
+                    items = DbSession.Query<Item, ItemByName>()
                         .Where(x => x.IsActive.HasValue && x.IsActive.Value)
                         .Search(x => x.Name, criteria)
                         .ToList();
@@ -92,16 +92,16 @@ namespace RavenDbTest.Controllers
         public ActionResult Delete(string id)
         {
             id = id.Replace('_', '/');
-            var item = Session.Load<Item>(id);
+            var item = DbSession.Load<Item>(id);
             if (item != null)
-                Session.Delete(item);
+                DbSession.Delete(item);
             return RedirectToAction("List");
         }
 
         public ActionResult MakeActive(string id)
         {
             id = id.Replace('_', '/');
-            var item = Session.Load<Item>(id);
+            var item = DbSession.Load<Item>(id);
             if (item != null)
                 item.IsActive = true;
             return RedirectToAction("List");
@@ -110,10 +110,10 @@ namespace RavenDbTest.Controllers
         private bool AddItem(Item item, bool isAdd)
         {
             if (isAdd)
-                Session.Store(item);
+                DbSession.Store(item);
             else
             {
-                var dbItem = Session.Load<Item>(item.Id.Replace('_', '/'));
+                var dbItem = DbSession.Load<Item>(item.Id.Replace('_', '/'));
                 if (dbItem != null)
                 {
                     dbItem.Name = item.Name;
@@ -130,7 +130,7 @@ namespace RavenDbTest.Controllers
 
         public ActionResult ActivateAll()
         {
-            var items = Session.Query<Item>()
+            var items = DbSession.Query<Item>()
                 .Where(x => !(x.IsActive.HasValue && x.IsActive.Value)).ToList();
             foreach (var item in items)
                 item.IsActive = true;

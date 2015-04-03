@@ -8,7 +8,7 @@ namespace RavenDbTest.Controllers
 {
     public class RavenDbController : Controller
     {
-        public new static IDocumentSession Session { get; set; }
+        public new static IDocumentSession DbSession { get; set; }
         private static IDocumentStore _documentStore;
         public static IDocumentStore DocumentStore
         {
@@ -34,13 +34,13 @@ namespace RavenDbTest.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Session =  DocumentStore.OpenSession();
+            DbSession =  DocumentStore.OpenSession();
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if(Session !=null && filterContext.Exception == null)
-                Session.SaveChanges();
+            if(DbSession !=null && filterContext.Exception == null)
+                DbSession.SaveChanges();
         }
 
         protected override JsonResult Json(object data, string contentType, System.Text.Encoding contentEncoding)

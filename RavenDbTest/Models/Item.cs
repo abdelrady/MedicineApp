@@ -11,6 +11,7 @@
         public bool? IsActive { get; set; }
     }
 
+
     //public enum Category
     //{
     //    BodyTemperature,

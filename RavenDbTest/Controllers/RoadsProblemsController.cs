@@ -30,7 +30,7 @@ namespace RavenDbTest.Controllers
             var result = false;
             try
             {
-                Session.Store(new Category { CatName = catName });
+                DbSession.Store(new Category { CatName = catName });
                 result = true;
             }
             catch
@@ -43,10 +43,10 @@ namespace RavenDbTest.Controllers
         public ActionResult DeleteCategory(string catName)
         {
             var result = false;
-            var problem = Session.Query<Category>().ToList().Where(x => x.CatName.ToLower() == catName.ToLower()).FirstOrDefault();
+            var problem = DbSession.Query<Category>().ToList().Where(x => x.CatName.ToLower() == catName.ToLower()).FirstOrDefault();
             if (problem != null)
             {
-                Session.Delete(problem);
+                DbSession.Delete(problem);
                 result = true;
             }
             return Json(new { Result = result });
@@ -55,7 +55,7 @@ namespace RavenDbTest.Controllers
 
         public ActionResult Index(int pageNumber = 0, int pageSize = 5)
         {
-            var problems = Session.Query<Problem>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            var problems = DbSession.Query<Problem>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
             return Json(problems.Select(x => new
             {
                 x.Id,
@@ -107,7 +107,7 @@ namespace RavenDbTest.Controllers
             ViewBag.IsAdd = false;
             InitializeViewBags();
             id = id.Replace('_', '/');
-            var problem = Session.Load<Problem>(id);
+            var problem = DbSession.Load<Problem>(id);
             if (problem != null)
                 return View("AddNew", problem);
             return Content("problem not found in database");
@@ -115,7 +115,7 @@ namespace RavenDbTest.Controllers
 
         public ActionResult List(int pageNumber = 0, int pageSize = 5)
         {
-            var problemItems = Session.Query<Problem>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            var problemItems = DbSession.Query<Problem>().Skip(pageNumber * pageSize).Take(pageSize).ToList();
             ViewBag.PageSize = pageSize;
             ViewBag.PageNumber = pageNumber;
             return View(problemItems);
@@ -128,10 +128,10 @@ namespace RavenDbTest.Controllers
             switch (@by.ToLower())
             {
                 case "cat":
-                    problems = Session.Query<Problem>().Where(x => x.Category == criteria).ToList();
+                    problems = DbSession.Query<Problem>().Where(x => x.Category == criteria).ToList();
                     break;
                 default:
-                    problems = Session.Query<Problem, ProblemByDesc>().Search(x => x.Description, criteria)
+                    problems = DbSession.Query<Problem, ProblemByDesc>().Search(x => x.Description, criteria)
                         .ToList();
                     break;
             }
@@ -142,7 +142,7 @@ namespace RavenDbTest.Controllers
         {
             string image = string.Empty;
             id = id.Replace('_', '/');
-            var problem = Session.Load<Problem>(id);
+            var problem = DbSession.Load<Problem>(id);
             if (problem != null)
                 image = problem.Image;
             return Json(new { image });
@@ -153,7 +153,7 @@ namespace RavenDbTest.Controllers
             List<Problem> problems = null;
 
             if (range <= 1000000)
-                problems = Session.Query<Problem>().ToList()
+                problems = DbSession.Query<Problem>().ToList()
                     .Where(x => DistanceFinder.GetDistanceBetweenPoints(lat, @long, x.Latitude, x.Longitude) <= range)
                     .ToList();
             return Json(problems.Select(x => new
@@ -173,9 +173,9 @@ namespace RavenDbTest.Controllers
         public ActionResult Delete(string id)
         {
             id = id.Replace('_', '/');
-            var problem = Session.Load<Problem>(id);
+            var problem = DbSession.Load<Problem>(id);
             if (problem != null)
-                Session.Delete(problem);
+                DbSession.Delete(problem);
             return RedirectToAction("List");
         }
 
@@ -184,11 +184,11 @@ namespace RavenDbTest.Controllers
             if (isAdd)
             {
                 problem.Image = imageData;
-                Session.Store(problem);
+                DbSession.Store(problem);
             }
             else
             {
-                var dbItem = Session.Load<Problem>(problem.Id.Replace('_', '/'));
+                var dbItem = DbSession.Load<Problem>(problem.Id.Replace('_', '/'));
                 if (dbItem != null)
                 {
                     dbItem.Description = problem.Description;
@@ -260,7 +260,7 @@ namespace RavenDbTest.Controllers
 
         private List<Category> GetCategoryList()
         {
-            return Session.Query<Category>().ToList();
+            return DbSession.Query<Category>().ToList();
         }
 
         #endregion

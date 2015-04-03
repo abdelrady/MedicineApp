@@ -203,6 +203,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\RoadsProblemsController.cs" />
     <Compile Include="Helpers\DistanceFinder.cs" />
     <Compile Include="Helpers\ItemByDesc.cs" />
@@ -217,6 +218,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Note.cs" />
+    <Compile Include="Models\NotesUser.cs" />
     <Compile Include="Models\Problem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -340,6 +343,10 @@
     <Content Include="Views\RoadsProblems\AddNew.cshtml" />
     <Content Include="Views\RoadsProblems\List.cshtml" />
     <Content Include="Views\RoadsProblems\TestJson.cshtml" />
+    <Content Include="Views\Notes\AddTestUser.cshtml" />
+    <Content Include="Views\Notes\LoginTest.cshtml" />
+    <Content Include="Views\Notes\AddTestUserNote.cshtml" />
+    <Content Include="Views\Notes\LogoutTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

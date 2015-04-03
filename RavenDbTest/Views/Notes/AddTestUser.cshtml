@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "TestJson";
+}
+
+<h2>TestJson</h2>
+<div id="resultDiv"></div>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Notes/AddNewUser",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ "Email": "Abdelrady@utour.in","Password":"password" })
+        }).done(function () {
+            //window.location = "/Notes/"
+        });
+    });
+
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Notes/AddUserNote",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify({ "Name": "Abdelrady@gmail.com", "Content": "password" })
+    //    }).done(function (data) {
+    //        window.location = "/Notes/Index";
+    //    });
+    //});
+
+    //$(document).ready(function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Notes/Login",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify({ "Email": "Abdelrady@gmail.com", "Password": "password" })
+    //    }).done(function (data) {
+    //        window.location = "/Notes/Index"
+    //    });
+    //});
+</script>
